@@ -14,8 +14,17 @@
     - name: start apache2
       service:
         name: apache2
-        state: started 
-      register: apache2_status
-    - debug: msg={{apache2_status}}   
+        state: restarted
+
+- name: configure the html page
+  hosts: 164.90.190.176
+  vars_files: 
+    - ansible-vars
+  tasks:
+    - name: configure  apache2
+      copy:
+        src: default-site.html
+        dest: /var/www/html/index.html
+      
 
     
