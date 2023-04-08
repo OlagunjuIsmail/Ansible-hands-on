@@ -1,0 +1,21 @@
+---
+- name: install apache
+  hosts: 164.90.190.176
+  tasks: 
+    - name: install apache2
+      apt: 
+        name: apache2
+        update_cache: yes
+        cache_valid_time: 3600
+        state: latest
+      register: apache_status
+    - debug: msg={{apache_status}}	
+
+    - name: start apache2
+      service:
+        name: apache2
+        state: started 
+      register: apache2_status
+    - debug: msg={{apache2_status}}   
+
+    

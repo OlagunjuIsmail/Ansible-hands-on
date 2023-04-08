@@ -1,0 +1,4 @@
+location: /mnt/c/Users/New/Ansible/simple-nodejs
+version: 1.0.0
+destination: /home/{{linux_user}}
+linux_user: salih

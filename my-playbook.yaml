@@ -1,0 +1,66 @@
+---
+- name: install node and npm
+  hosts: 134.122.86.33
+  tasks:
+    - name: update the server and install npm and node
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        pkg: 
+          - nodejs
+          - npm
+        state: latest
+
+- name: create a new linuxuser
+  hosts: 134.122.86.33
+  vars_files:
+    - ansible-vars
+  tasks:
+    - name: create {{linux_user}}
+      user:
+        name: "{{linux_user}}"
+        comment: "{{linux_user}} admin"
+        group: admin
+      register: creation_details
+    - debug: msg={{ creation_details}}  
+
+- name: deploy the node app
+  hosts: 134.122.86.33
+  vars_files:
+    - ansible-vars
+  become: True
+  become_user: "{{linux_user}}"
+  
+  tasks:
+    - name: unpack the tar file
+      unarchive:
+        src: "{{location}}/nodejs-app-{{version}}.tgz"
+        dest: "{{destination}}"
+
+    - name: install dependencies
+      npm:
+        path: "{{destination}}/package"
+
+    - name: start the server
+      command:
+        chdir: "{{destination}}/package/app"
+        cmd: node server
+      async: 1000
+      poll: 0  
+
+    - name: register app status
+      shell: ps aux | grep node
+      register: app_status
+    - debug: msg={{app_status.stdout_lines}}
+
+         
+  
+    
+
+    
+  
+
+  
+
+
+ 
