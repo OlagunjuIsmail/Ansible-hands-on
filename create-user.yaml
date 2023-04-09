@@ -1,0 +1,24 @@
+---
+- name: create another user
+  hosts: 164.90.190.176
+  tasks: 
+    - name: create lagni
+      user: 
+        name: lagni
+        groups: root
+
+    - name: create ssh-key for lagni   
+      authorized_key: 
+        user: lagni
+        key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC81iJDUY+bXiZ4GAuyseo9RWCMWGCrKOJpNNV3O0MfzmA+baJ1tNFULTNJJ4jktU+AdyYgadnPRoVUw62x+lcGC/ZDLk2bCX2sw4v0QRrvWCB55fjUXMQ6rRPB5kGzlwCBJrsCb0ml8a2ns0G5KRpBPqhBGJuu0958Bi5nD52mS813sOuB6fn0/2NvnWYjUlU5pOqDDcSRTQEGVum/cSUbt+2B9d/hs1C5ZT1ZjX4LFJ+w/yQOLpM6o0t+GCNginOVOwsFKITL6I4a3jFX5MBUN1YLpu+uozF9cFTy9NRoaaZHGxIexvTvJQmkzJ/a/MR3uvUaU5gpxZUtUvx5DgYy6FSfcBLBdQxObJcOixmcohK9oBbNK4hRvhEDqoJjA5pX5hD+oqe5B33NNeFma0m7rhGuCmzJqWKm/TFB76KizrjR+SD8RvoqSYzrfGtUNp/lsyQnupZ5JrJO+ugWzpqmc+CriU0kKcnNVnx5onLxZqXUuyOuByMAc5GuNSS00y8= ismail@DESKTOP-MAFC9JV" 
+    
+    - name: add lagni to sudoers
+      copy: 
+        src: sudoers_lagni
+        dest: /etc/sudoers.d/lagni
+        owner: root
+        group: root
+        mode: 0440
+
+
+    
